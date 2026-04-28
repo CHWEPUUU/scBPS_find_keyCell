@@ -13,7 +13,7 @@ if (!dir.exists(rand_dir)) {
   print(paste("Created directory:", rand_dir))
 }
 # Load necessary libraries
-library(scBPS, lib.loc = "/home/data/cq/R/x86_64-pc-linux-gnu-library/4.3")
+library(scBPS)
 library(DelayedArray)
 library(data.table)
 library(reshape2)
