@@ -28,7 +28,7 @@ run_scBPS_pipeline <- function(
     if (!file.exists(BPS_AUC_path)) stop("BPS评分文件不存在: ", BPS_AUC_path)
     if (!file.exists(BPS_AUC_P_path)) stop("BPS评分文件不存在: ", BPS_AUC_P_path)
     # BPS评分绘图，筛选关键细胞-关键菌群
-    source("/home/data/share/module/scRNA/scBPS/code_module/BPS_plot_func.R")
+    source("./code_module/BPS_plot_func.R")
     BPS_plot(
       BPS_AUC_path = BPS_AUC_path,
       BPS_AUC_P_path = BPS_AUC_P_path
@@ -40,7 +40,7 @@ run_scBPS_pipeline <- function(
       message("sc_adata.h5ad already exists, skipping Seurat to h5ad conversion.")
     } else {
       message("Processing Seurat object and converting to h5ad format...")
-      source("/home/data/share/module/scRNA/scBPS/code_module/stratified_sample_seurat.R")
+      source("./code_module/stratified_sample_seurat.R")
       scRNA <- stratified_sample_seurat(scrna_obj)
 
       SaveH5Seurat(scRNA, filename = "output/sc_adata.h5Seurat", overwrite = TRUE)
@@ -58,13 +58,13 @@ run_scBPS_pipeline <- function(
     # 运行scBPS
     system2("bash",
       args = c(
-        "/home/data/share/module/scRNA/scBPS/code_module/BPS_score.sh",
+        "./code_module/BPS_score.sh",
         gwas
       )
     )
 
     # BPS评分绘图，筛选关键细胞-关键菌群
-    source("/home/data/share/module/scRNA/scBPS/code_module/BPS_plot_func.R")
+    source("./code_module/BPS_plot_func.R")
     BPS_plot(
       BPS_AUC_path = BPS_AUC_path,
       BPS_AUC_P_path = BPS_AUC_P_path
