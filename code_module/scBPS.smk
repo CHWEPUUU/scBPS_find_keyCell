@@ -22,7 +22,7 @@ rule compute_score:
         outdir=config["outdir"] + "/tmp/"
     shell:
         """
-        python /home/data/share/module/scRNA/scBPS/code_module/compute-score.py {input.zscore} {params.outdir} {input.adata}
+        python ./code_module/compute-score.py {input.zscore} {params.outdir} {input.adata}
         tail -n +2 {input.zscore} | cut -f1 | awk '{{print "{params.outdir}"$1".score"}}' | xargs realpath > {output.list}
         """
 
@@ -36,7 +36,7 @@ rule generate_norm_score:
         outdir=config["outdir"] 
     shell:
         """
-        python /home/data/share/module/scRNA/scBPS/code_module/generate_norm_score.py {input.list} {output.norm_score}
+        python ./code_module/generate_norm_score.py {input.list} {output.norm_score}
         """
 
 ############# Rule 3: Calculate AUC and p-value
@@ -49,5 +49,5 @@ rule calculate_AUC_pvalue:
         bpsauc=config["outdir"] + "/BPS_AUC.txt"
     shell:
         """
-        Rscript /home/data/share/module/scRNA/scBPS/code_module/calculate_AUC.R {input.norm_score} {input.myanno} {output.pauc} {output.bpsauc}
+        Rscript ./code_module/calculate_AUC.R {input.norm_score} {input.myanno} {output.pauc} {output.bpsauc}
         """
